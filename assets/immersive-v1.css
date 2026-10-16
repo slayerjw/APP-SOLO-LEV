@@ -69,7 +69,7 @@ body.boss-active .boss{animation:bossBreath 3.6s ease-in-out infinite}
 @media(prefers-reduced-motion:reduce){.immersive-avatar *,.monster-art *,.boss,.mastery-ring,.mastery-seal>svg{animation:none!important}.modal.phase2-event .win{animation:none!important}}
 
 /* Titã da Preguiça (assets/art-v1.js): respiração lenta e pesada */
-.titan .titan-body{transform-origin:160px 200px;animation:titanBreath 5.5s ease-in-out infinite}
+.titan .titan-body{transform-origin:160px 236px;animation:titanBreath 5.5s ease-in-out infinite}
 @keyframes titanBreath{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.018) translateY(-1px)}}
 /* Assassino: lâminas espectrais do Rank S flutuam */
 .assassin-avatar .spectral{animation:spectralFloat 3.4s ease-in-out infinite}

@@ -18,10 +18,12 @@
   const map=(n,inA,inB,outA,outB)=>outA+(clamp(n,inA,inB)-inA)*(outB-outA)/(inB-inA);
   const hasState=()=>typeof S!=='undefined' && S && S.p;
 
+  // Body proportions are universal: they already work during onboarding,
+  // before the player chooses a class. Premium rank art is Assassin-only.
   const previousAvatar = avatar;
   avatar = function(p, rk, shadow){
     let svg = previousAvatar(p, rk, shadow);
-    if (!p || p.cls !== 'assassino' || shadow) return svg;
+    if (!p || shadow) return svg;
     const sy = map(+p.height || 170, 140, 210, .90, 1.10);
     const sx = map(+p.weight || 70, 40, 160, .84, 1.18);
     const label = `${p.height || 170} cm · ${p.weight || 70} kg`;

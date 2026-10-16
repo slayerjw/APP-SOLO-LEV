@@ -123,9 +123,7 @@
     return null;
   }
 
-  const TITAN_ART = 'assets/monsters/titan-preguica.webp';
   mArt = function(key, mini) {
-    if (key === 'golem') return `<img class="monster-art premium-monster" src="${TITAN_ART}" alt="${MON.golem.n}">`;
     if (['golem','aranha','espectro','sombra','hidra','ladrao'].includes(key)) return signatureMonster(key);
     const out = base.mArt(key, mini);
     return out.replace('<svg ', `<svg class="monster-art monster-${key}" `);

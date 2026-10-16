@@ -68,13 +68,17 @@ body.boss-active .boss{animation:bossBreath 3.6s ease-in-out infinite}
 @media(max-width:460px){.sysbar .in{gap:6px}.ibtn{padding:6px 7px;font-size:10px}.logo{letter-spacing:.18em;font-size:12px}.logo small{display:none}.mastery-reward{align-items:flex-start;flex-direction:column}.mastery-seal{min-height:210px}.mastery-seal>svg{height:205px}}
 @media(prefers-reduced-motion:reduce){.immersive-avatar *,.monster-art *,.boss,.mastery-ring,.mastery-seal>svg{animation:none!important}.modal.phase2-event .win{animation:none!important}}
 
-/* Arte do Titã da Preguiça (folha de conceito: mostra só a figura principal) */
-img.premium-monster{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:18% 30%;border:1px solid rgba(255,77,94,.35);background:#05070c}
-.bossart.premium-monster{max-width:260px;margin:0 auto 8px}
-.echoice img.premium-monster{width:72px}
-.modal .body img.premium-monster{max-width:240px;margin:0 auto 10px}
+/* Titã da Preguiça (assets/art-v1.js): respiração lenta e pesada */
+.titan .titan-body{transform-origin:160px 200px;animation:titanBreath 5.5s ease-in-out infinite}
+@keyframes titanBreath{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.018) translateY(-1px)}}
+/* Assassino: lâminas espectrais do Rank S flutuam */
+.assassin-avatar .spectral{animation:spectralFloat 3.4s ease-in-out infinite}
+@keyframes spectralFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media(prefers-reduced-motion:reduce){.titan .titan-body,.assassin-avatar .spectral{animation:none!important}}
 /* O avatar dos eventos precisa vencer a regra genérica ".modal .body svg" do index.html,
    senão ele cresce além do quadro e cobre o botão do modal. */
 .modal .body .rank-event-avatar svg{height:220px;width:auto;max-width:100%;margin:0 auto}
 .modal .body .mastery-seal>svg{height:230px;width:auto;max-width:100%;margin:0}
 @media(max-width:460px){.modal .body .mastery-seal>svg{height:205px}}
+/* O Titã ocupa o quadro inteiro (caverna): sem brilho vermelho em volta do retângulo */
+.monster-art.titan{filter:drop-shadow(0 10px 14px rgba(0,0,0,.6))}

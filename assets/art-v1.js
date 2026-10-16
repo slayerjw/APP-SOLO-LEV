@@ -294,13 +294,42 @@ ${pulse}${particles}
   }
 
   /* -------------------------- ligação com o app -------------------------- */
+  // Ilustração de avatar (assets/art-manifest.js) dentro de um SVG 120x210,
+  // para funcionar em todos os lugares onde o app já usa o avatar.
+  function illustratedAvatar(src, p, rk) {
+    const id = uidA('ia'), rank = rk || 'E', ri = ['E', 'D', 'C', 'B', 'A', 'S'].indexOf(rank);
+    const accs = ['#5f87a8', '#4ea8ff', '#4ea8ff', '#5aa2ff', '#7a6bff', '#a46bff'], acc = accs[ri];
+    // altura e peso ajustam levemente a ilustração
+    const sy = .92 + Math.min(1, Math.max(0, ((+p.height || 170) - 145) / 55)) * .1;
+    const bmi = (+p.weight || 70) / Math.pow((+p.height || 170) / 100, 2);
+    const sx = bmi < 19 ? .94 : bmi < 25 ? 1 : bmi < 30 ? 1.05 : 1.1;
+    const pulse = ri >= 3 ? `<g class="rank-pulse rank-${rank}"><circle cx="60" cy="108" r="51" fill="none" stroke="${acc}" stroke-width="1.1" opacity=".45"/></g>` : '';
+    const particles = ri >= 5 ? `<g class="rank-particles">${[[15, 44], [99, 35], [22, 99], [103, 122], [18, 154], [98, 174], [26, 68], [109, 88]].map(([x, y], k) => `<circle cx="${x}" cy="${y}" r="${k % 3 ? 1 : 1.6}" fill="${k % 2 ? acc : '#ffc65c'}"/>`).join('')}</g>` : '';
+    return `<svg class="immersive-avatar illustrated-avatar rank-${rank}" viewBox="0 0 120 210" role="img" aria-label="Avatar do jogador, Rank ${rank}" style="overflow:visible">
+<defs><radialGradient id="${id}g" cx="50%" cy="55%" r="50%"><stop offset="0" stop-color="${acc}" stop-opacity="${.12 + ri * .07}"/><stop offset="1" stop-color="${acc}" stop-opacity="0"/></radialGradient></defs>
+<ellipse cx="60" cy="112" rx="58" ry="102" fill="url(#${id}g)"/><ellipse cx="60" cy="203" rx="30" ry="4" fill="#000" opacity=".55"/>
+<g transform="translate(60 205) scale(${sx.toFixed(3)} ${sy.toFixed(3)}) translate(-60 -205)">
+  <image href="${src}" x="0" y="0" width="120" height="205" preserveAspectRatio="xMidYMax meet"/>
+</g>${pulse}${particles}</svg>`;
+  }
+  function illustratedMonster(src, key) {
+    return `<svg class="monster-art monster-${key} illustrated-monster" viewBox="0 0 320 260" role="img" aria-label="${MON[key] ? MON[key].n : key}">
+<image href="${src}" x="0" y="0" width="320" height="260" preserveAspectRatio="xMidYMid slice"/></svg>`;
+  }
+
   const prevAvatar = avatar;
   avatar = function (p, rk, shadow) {
+    if (!shadow && p && p.cls) {
+      const src = (window.AVATAR_ART || {})[`${p.cls}/${p.sex === 'f' ? 'f' : 'm'}/${rk || 'E'}`];
+      if (src) return illustratedAvatar(src, p, rk);
+    }
     if (!shadow && p && p.cls === 'assassino') return assassin(p, rk);
     return prevAvatar(p, rk, shadow);
   };
   const prevMArt = mArt;
   mArt = function (key, mini) {
+    const src = (window.MONSTER_ART || {})[key];
+    if (src) return illustratedMonster(src, key);
     if (key === 'golem') return titan();
     return prevMArt(key, mini);
   };

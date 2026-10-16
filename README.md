@@ -8,6 +8,30 @@ habilidades passivas, sobe de nível e enfrenta chefes numa história em 7 capí
 É um único arquivo: abra `index.html` no navegador. Não precisa instalar nada.
 O progresso fica salvo no `localStorage` do navegador (chave `sistema-disciplina-v2`).
 
+## V1 imersiva — branch `v1-immersao`
+A camada nova de imersão foi mantida separada do arquivo principal para evitar conflito e proteger o progresso existente.
+
+Arquivos:
+- `play.html` — launcher da versão imersiva.
+- `assets/immersive-v1.js` — monstros, avatar por rank, 12 SFX, trilha dinâmica e eventos especiais.
+- `assets/immersive-v1.css` — animações, efeitos de rank, boss, dia 21 e modo foco.
+
+### Como testar a V1 imersiva
+Use um servidor estático (GitHub Pages, Live Server, `python -m http.server`, etc.) e abra `play.html`.
+O `play.html` carrega o `index.html` original e injeta a camada imersiva no mesmo contexto, sem mudar a chave de save.
+
+Checklist de teste:
+1. Onboarding completo e criação de jogador.
+2. Avatar Rank E e diferenças visuais nos ranks D, C, B, A e S.
+3. Nomes/arte: Titã da Preguiça, Devorador de Foco, Parasita da Procrastinação, Sussurrador da Dúvida e Abismo do Caos.
+4. Botão `◎ Foco` e mudança de trilha entre ambient/focus/boss/victory.
+5. Sons diferentes para missão, XP, level up, rank up, boss hit, fase 2, boss derrotado, warning, failure e domínio de hábito.
+6. Conclusão do dia 21 abre o evento `21 DIAS · ASCENSÃO`.
+7. Quebrar uma sequência existente faz aparecer o `Ladrão de Sequência`.
+8. Reabrir o app preserva o progresso anterior.
+
+> Durante o teste desta branch, não editar `assets/immersive-v1.js`, `assets/immersive-v1.css` ou os fluxos de áudio/arte/dia 21 do `index.html` em paralelo. Isso evita conflitos entre Claude e ChatGPT.
+
 ## Estrutura do `index.html`
 Tudo está num arquivo só, dividido por comentários `/* ===== ... ===== */` no script:
 

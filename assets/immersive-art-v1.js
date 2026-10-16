@@ -16,24 +16,18 @@
 
   const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
   const map=(n,inA,inB,outA,outB)=>outA+(clamp(n,inA,inB)-inA)*(outB-outA)/(inB-inA);
+  const hasState=()=>typeof S!=='undefined' && S && S.p;
 
-  // Keep current immersive avatar, then apply proportion changes for the Assassin.
   const previousAvatar = avatar;
   avatar = function(p, rk, shadow){
     let svg = previousAvatar(p, rk, shadow);
     if (!p || p.cls !== 'assassino' || shadow) return svg;
-
-    // Height changes vertical proportion; weight changes body width.
-    // Limits are deliberately conservative to avoid cartoonish distortion.
     const sy = map(+p.height || 170, 140, 210, .90, 1.10);
     const sx = map(+p.weight || 70, 40, 160, .84, 1.18);
     const label = `${p.height || 170} cm · ${p.weight || 70} kg`;
-
-    svg = svg.replace('<svg ', `<svg data-proportional-avatar="1" data-body="${label}" style="overflow:visible;transform-origin:50% 100%;transform:scaleX(${sx.toFixed(3)}) scaleY(${sy.toFixed(3)});" `);
-    return svg;
+    return svg.replace('<svg ', `<svg data-proportional-avatar="1" data-body="${label}" style="overflow:visible;transform-origin:50% 100%;transform:scaleX(${sx.toFixed(3)}) scaleY(${sy.toFixed(3)});" `);
   };
 
-  // Replace the Sloth Titan SVG with the premium art in boss/bestiary contexts.
   const previousMArt = mArt;
   mArt = function(key, mini){
     if (key === 'golem') {
@@ -48,10 +42,9 @@
   }
 
   function ensureEvolutionCard(){
-    if (!window.S || !S.p || S.p.cls !== 'assassino') return;
+    if (!hasState() || S.p.cls !== 'assassino') return;
     const root = document.getElementById('app');
     if (!root) return;
-
     const currentRank = rankOf(S.lv);
     let card = document.getElementById('assassinEvolutionCard');
     if (!card) {
@@ -59,10 +52,9 @@
       card.id = 'assassinEvolutionCard';
       card.className = 'win assassin-evolution-card';
       const firstWin = root.querySelector('.win');
-      if (firstWin && firstWin.parentNode) firstWin.parentNode.insertBefore(card, firstWin.nextSibling);
+      if (firstWin) firstWin.insertAdjacentElement('afterend',card);
       else root.prepend(card);
     }
-
     card.innerHTML = `
       <div class="tag">Evolução do Assassino</div>
       <div class="evo-hero">
@@ -75,58 +67,44 @@
           <button class="btn" id="openEvolutionGallery">Ver evolução E → S</button>
         </div>
       </div>`;
-
-    const btn = document.getElementById('openEvolutionGallery');
-    if (btn) btn.onclick = openEvolutionGallery;
+    const btn=document.getElementById('openEvolutionGallery');
+    if(btn) btn.onclick=openEvolutionGallery;
   }
 
   function openEvolutionGallery(){
-    const ranks = ['E','D','C','B','A','S'];
-    const body = `<div class="rank-gallery">${ranks.map(r=>`<figure>${rankArt(r)}<figcaption>Rank ${r}</figcaption></figure>`).join('')}</div>`;
-    if (typeof showModal === 'function') {
-      showModal({kind:'gold story',tag:'Classe · Assassino',title:'Evolução E → S',body,btn:'Fechar'});
-    }
+    const ranks=['E','D','C','B','A','S'];
+    const body=`<div class="rank-gallery">${ranks.map(r=>`<figure>${rankArt(r)}<figcaption>Rank ${r}</figcaption></figure>`).join('')}</div>`;
+    if(typeof showModal==='function') showModal({kind:'gold story',tag:'Classe · Assassino',title:'Evolução E → S',body,btn:'Fechar'});
   }
 
-  // Enhance major modals without altering progression logic.
-  const overlay = document.getElementById('overlay');
-  if (overlay) {
-    const observer = new MutationObserver(()=>{
-      const modal = overlay.querySelector('.modal .win');
-      if (!modal || modal.dataset.premiumArtApplied) return;
-      const text = modal.textContent || '';
+  const overlay=document.getElementById('overlay');
+  if(overlay){
+    const observer=new MutationObserver(()=>{
+      const modal=overlay.querySelector('.modal .win');
+      if(!modal||modal.dataset.premiumArtApplied) return;
+      const text=modal.textContent||'';
       let art='';
-      if (S?.p?.cls === 'assassino' && (/Level Up|Novo rank|Habilidade adquirida|21 DIAS|ASCENSÃO/i.test(text))) {
-        art = rankArt(rankOf(S.lv));
-      }
-      if (/Titã da Preguiça/i.test(text)) {
-        art = `<img class="premium-boss-splash" src="${ART.titan}" alt="Titã da Preguiça">`;
-      }
-      if (art) {
-        const tag = modal.querySelector('.tag');
-        if (tag) tag.insertAdjacentHTML('afterend', `<div class="premium-modal-art">${art}</div>`);
+      if(hasState() && S.p.cls==='assassino' && /Level Up|Novo rank|Habilidade adquirida|21 DIAS|ASCENSÃO/i.test(text)) art=rankArt(rankOf(S.lv));
+      if(/Titã da Preguiça/i.test(text)) art=`<img class="premium-boss-splash" src="${ART.titan}" alt="Titã da Preguiça">`;
+      if(art){
+        const tag=modal.querySelector('.tag');
+        if(tag) tag.insertAdjacentHTML('afterend',`<div class="premium-modal-art">${art}</div>`);
         modal.dataset.premiumArtApplied='1';
       }
     });
     observer.observe(overlay,{childList:true,subtree:true});
   }
 
-  // Render wrapper keeps premium card synced after every app redraw.
-  const previousRender = render;
-  render = function(){
-    previousRender();
-    ensureEvolutionCard();
-  };
+  const previousRender=render;
+  render=function(){ previousRender(); ensureEvolutionCard(); };
 
-  // Update onboarding preview continuously when height or weight changes.
-  document.addEventListener('input', e=>{
-    if (!['fH','fW'].includes(e.target?.id)) return;
+  document.addEventListener('input',e=>{
+    if(!['fH','fW'].includes(e.target?.id)) return;
     requestAnimationFrame(()=>{
-      const preview = document.getElementById('avPrev');
-      if (preview && typeof P !== 'undefined') preview.innerHTML = avatar(P,'E');
+      const preview=document.getElementById('avPrev');
+      if(preview && typeof P!=='undefined') preview.innerHTML=avatar(P,'E');
     });
   });
 
-  // Re-render once when the layer is attached.
-  try { if (window.S && S.p) render(); } catch(e) { console.warn('[immersive-art]', e); }
+  try{ if(hasState()) render(); }catch(e){ console.warn('[immersive-art]',e); }
 })();

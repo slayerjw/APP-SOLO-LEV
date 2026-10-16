@@ -19,9 +19,18 @@ const frame=document.getElementById('appframe'), load=document.getElementById('l
 frame.addEventListener('load',()=>{
   try{
     const d=frame.contentDocument;
-    const css=d.createElement('link'); css.rel='stylesheet'; css.href='assets/immersive-v1.css'; d.head.appendChild(css);
-    const js=d.createElement('script'); js.src='assets/immersive-v1.js'; js.onload=()=>load.classList.add('hide');
-    js.onerror=()=>{load.textContent='Falha ao carregar a camada imersiva.'}; d.body.appendChild(js);
+    ['assets/immersive-v1.css','assets/immersive-art-v1.css'].forEach(href=>{
+      const css=d.createElement('link'); css.rel='stylesheet'; css.href=href; d.head.appendChild(css);
+    });
+    const core=d.createElement('script'); core.src='assets/immersive-v1.js';
+    core.onload=()=>{
+      const art=d.createElement('script'); art.src='assets/immersive-art-v1.js';
+      art.onload=()=>load.classList.add('hide');
+      art.onerror=()=>{load.textContent='Falha ao carregar as artes da V1.'};
+      d.body.appendChild(art);
+    };
+    core.onerror=()=>{load.textContent='Falha ao carregar a camada imersiva.'};
+    d.body.appendChild(core);
   }catch(e){ load.textContent='Abra esta página por um servidor local ou hospedagem web.'; console.error(e); }
 });
 </script>

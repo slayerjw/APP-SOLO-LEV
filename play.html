@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sistema de Disciplina — V1 Imersiva</title>
+<style>
+html,body{margin:0;width:100%;height:100%;background:#04060b;overflow:hidden}
+#appframe{display:block;border:0;width:100%;height:100%;background:#04060b}
+#load{position:fixed;inset:0;display:grid;place-items:center;background:#04060b;color:#cfe6ff;font:600 13px system-ui;letter-spacing:.15em;z-index:2;transition:opacity .3s}
+#load.hide{opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="load">INICIANDO SISTEMA…</div>
+<iframe id="appframe" src="index.html" title="Sistema de Disciplina"></iframe>
+<script>
+const frame=document.getElementById('appframe'), load=document.getElementById('load');
+frame.addEventListener('load',()=>{
+  try{
+    const d=frame.contentDocument;
+    const css=d.createElement('link'); css.rel='stylesheet'; css.href='assets/immersive-v1.css'; d.head.appendChild(css);
+    const js=d.createElement('script'); js.src='assets/immersive-v1.js'; js.onload=()=>load.classList.add('hide');
+    js.onerror=()=>{load.textContent='Falha ao carregar a camada imersiva.'}; d.body.appendChild(js);
+  }catch(e){ load.textContent='Abra esta página por um servidor local ou hospedagem web.'; console.error(e); }
+});
+</script>
+</body>
+</html>

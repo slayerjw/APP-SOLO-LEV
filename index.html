@@ -19,6 +19,10 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
 body{background:var(--void);color:var(--ice);font-family:var(--f-body);font-size:15px;line-height:1.55;
   background-image:radial-gradient(ellipse at 50% -10%,rgba(42,107,255,.24),transparent 60%),
   linear-gradient(rgba(78,168,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(78,168,255,.035) 1px,transparent 1px);
@@ -230,6 +234,7 @@ p.voice{font-style:italic;color:#ffb3bc}
 .eyes{animation:breathe 2.6s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<link rel="stylesheet" href="assets/immersive-v1.css">
 </head>
 <body>
 
@@ -502,9 +507,9 @@ const CH = [
     `Hoje ela não vai sussurrar. Vai lutar com tudo. Ataque um dia de cada vez.`],
    p2:x=>[VO(`"${MON[x.mk].q[2]}"`),`${x.A} muda de forma e se torna o pior dia da sua vida. Você reconhece cada detalhe. E continua de pé.`],
    outro:x=>[`${x.A} cai de joelhos e começa a se desfazer.`,
-    VO(`"Você acha que me venceu? Eu sou feita dos seus dias ruins. Eles vão voltar."`),
+    VO(`"Você acha que me venceu? Eu nasci dos seus dias ruins. Eles vão voltar."`),
     SY(`[SISTEMA] Correto. E o Jogador também vai.`),
-    `${x.Fr} nunca some de uma vez. Mas hoje, pela primeira vez, você é mais forte do que ela.`]},
+    `${x.Fr} nunca some de uma vez. Mas hoje, pela primeira vez, você é mais forte do que isso.`]},
   {t:"Além do Limite",req:45,hp:3100,mon:()=>"arauto",
    intro:x=>[SY(`[SISTEMA] Restrições de nível removidas.`),
     `Portais que você nem sabia que existiam começam a se abrir. As mensagens do Administrador aparecem com mais frequência, sempre curtas: "Bom." "Continue." "Eu lembro desse dia."`,
@@ -1023,8 +1028,13 @@ function startApp(){
   $("onb").hidden=true; $("app").hidden=false; $("bar").hidden=false; try{ window.scrollTo(0,0); }catch(e){}
   migrate(); syncBar(); tick(); rollover(); checkIntro(); render(); save();
 }
-if(S&&S.p) startApp(); else { $("onb").hidden=false; onb(); }
-setInterval(()=>{ if(!S) return; tick(); if(S.day!==today()){ rollover(); checkIntro(); render(); } },30000);
+// Inicia depois que as camadas extras (assets/immersive-v1.js) carregarem,
+// para que elas já valham na virada do dia e no onboarding.
+window.addEventListener("DOMContentLoaded",()=>{
+  if(S&&S.p) startApp(); else { $("onb").hidden=false; onb(); }
+  setInterval(()=>{ if(!S) return; tick(); if(S.day!==today()){ rollover(); checkIntro(); render(); } },30000);
+});
 </script>
+<script src="assets/immersive-v1.js"></script>
 </body>
 </html>

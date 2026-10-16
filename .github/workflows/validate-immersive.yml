@@ -1,0 +1,35 @@
+name: Validate Immersive V1
+
+on:
+  push:
+    branches: [main, v1-immersao]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: node --check assets/immersive-v1.js
+      - name: Check required immersive features
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f index.html
+          grep -q 'assets/immersive-v1.js' index.html
+          test -f assets/immersive-v1.css
+          for token in ui_click quest_complete xp_gain streak_complete level_up rank_up boss_hit boss_phase2 boss_defeat warning failure skill_mastered; do
+            grep -q "$token" assets/immersive-v1.js
+          done
+          for state in ambient focus boss victory; do
+            grep -q "$state" assets/immersive-v1.js
+          done
+          grep -q "21 DIAS · ASCENSÃO" assets/immersive-v1.js
+          grep -q "Ladrão de Sequência" assets/immersive-v1.js
+          grep -q "Titã da Preguiça" assets/immersive-v1.js
+          grep -q "Devorador de Foco" assets/immersive-v1.js

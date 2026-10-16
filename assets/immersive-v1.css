@@ -1,0 +1,69 @@
+/* Immersive V1 — additive styles; safe to remove without touching save data */
+body{transition:background-color .5s ease,filter .25s ease}
+body.focus-mode{background-image:radial-gradient(ellipse at 50% -10%,rgba(56,189,248,.2),transparent 56%),linear-gradient(rgba(78,168,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(78,168,255,.025) 1px,transparent 1px)}
+body.focus-mode .win:not(.boss){box-shadow:0 0 0 1px rgba(78,168,255,.12) inset,0 0 18px rgba(42,107,255,.16)}
+body.focus-mode .msg,body.focus-mode .chron,body.focus-mode .bestiary{opacity:.62;transition:opacity .25s}
+body.boss-active .boss{animation:bossBreath 3.6s ease-in-out infinite}
+@keyframes bossBreath{0%,100%{box-shadow:0 0 0 1px rgba(255,77,94,.12) inset,0 0 24px rgba(255,77,94,.16)}50%{box-shadow:0 0 0 1px rgba(255,77,94,.22) inset,0 0 42px rgba(255,35,68,.3)}}
+
+.monster-art{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 12px 18px rgba(0,0,0,.55))}
+.bossart.monster-art{max-width:360px}
+.monster-art .eyes,.monster-art [filter]{transform-origin:center}
+.monster-ladrao .broken-chain{animation:chainFlicker 1.45s steps(2,end) infinite}
+@keyframes chainFlicker{0%,100%{opacity:.9}40%{opacity:.38}55%{opacity:1}}
+.monster-aranha{filter:drop-shadow(0 0 14px rgba(56,189,248,.2)) drop-shadow(0 12px 18px rgba(0,0,0,.6))}
+.monster-espectro,.monster-hidra{filter:drop-shadow(0 0 16px rgba(124,58,237,.2)) drop-shadow(0 12px 18px rgba(0,0,0,.6))}
+.monster-sombra,.monster-golem{filter:drop-shadow(0 0 14px rgba(255,64,88,.16)) drop-shadow(0 12px 18px rgba(0,0,0,.65))}
+
+.immersive-avatar{overflow:visible;filter:drop-shadow(0 9px 10px rgba(0,0,0,.45))}
+.immersive-avatar .rank-metal{filter:drop-shadow(0 0 2px rgba(215,228,243,.35))}
+.immersive-avatar .rank-crest{filter:drop-shadow(0 0 3px rgba(127,208,255,.65))}
+.immersive-avatar .rank-pulse{transform-origin:60px 108px;animation:auraPulse 2.2s ease-in-out infinite}
+.immersive-avatar .rank-crown{animation:crownGlow 2.8s ease-in-out infinite}
+.immersive-avatar .rank-particles circle{animation:particleFloat 2.7s ease-in-out infinite;transform-origin:center}
+.immersive-avatar .rank-particles circle:nth-child(2n){animation-delay:-.8s}.immersive-avatar .rank-particles circle:nth-child(3n){animation-delay:-1.5s}
+@keyframes auraPulse{0%,100%{opacity:.28;transform:scale(.97)}50%{opacity:.92;transform:scale(1.045)}}
+@keyframes crownGlow{0%,100%{opacity:.48}50%{opacity:1;filter:drop-shadow(0 0 4px currentColor)}}
+@keyframes particleFloat{0%,100%{opacity:.22;transform:translateY(4px) scale(.7)}50%{opacity:1;transform:translateY(-6px) scale(1.2)}}
+.rank-S{filter:drop-shadow(0 0 8px rgba(164,107,255,.28)) drop-shadow(0 10px 13px rgba(0,0,0,.5))}
+.rank-A .rank-crown{filter:drop-shadow(0 0 3px rgba(255,198,92,.45))}
+
+.modal.mastery-event,.modal.rank-event,.modal.victory-event,.modal.phase2-event,.modal.thief-event{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.modal.mastery-event{background:radial-gradient(circle at 50% 36%,rgba(255,198,92,.16),rgba(4,6,11,.94) 58%)}
+.modal.mastery-event .win{border-color:var(--gold);box-shadow:0 0 0 1px rgba(255,198,92,.2) inset,0 0 60px rgba(255,198,92,.18);overflow:hidden}
+.modal.mastery-event .win::before,.modal.mastery-event .win::after{border-color:var(--gold)}
+.modal.mastery-event h2{font-size:27px;color:#fff4d3;text-shadow:0 0 18px rgba(255,198,92,.7)}
+.mastery-seal{position:relative;display:grid;place-items:center;min-height:238px;margin:-8px 0 8px}
+.mastery-seal>svg{height:230px;width:auto;z-index:2}
+.mastery-ring{position:absolute;z-index:1;width:176px;height:176px;border:1px solid rgba(255,198,92,.72);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gold);box-shadow:0 0 28px rgba(255,198,92,.22),inset 0 0 28px rgba(255,198,92,.08);animation:masterySpin 12s linear infinite}
+.mastery-ring::before,.mastery-ring::after{content:"";position:absolute;border-radius:50%;inset:-12px;border:1px dashed rgba(255,198,92,.36)}
+.mastery-ring::after{inset:14px;border-style:solid;border-color:rgba(164,107,255,.25)}
+.mastery-ring span{font:700 48px/1 var(--f-display);text-shadow:0 0 13px rgba(255,198,92,.55)}
+.mastery-ring small{font:600 10px var(--f-mono);letter-spacing:.28em;margin-left:.28em}
+@keyframes masterySpin{to{transform:rotate(360deg)}}
+.mastery-seal>svg{animation:heroRise 1.1s cubic-bezier(.2,.85,.2,1) both}
+@keyframes heroRise{from{opacity:0;transform:translateY(18px) scale(.92);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+.event-kicker{text-align:center;font:700 11px var(--f-display);letter-spacing:.18em;color:var(--gold);margin:5px 0 14px}
+.mastery-event .body>p{text-align:center;color:#dce9fa;margin:8px auto;max-width:410px}
+.mastery-reward{margin:18px 0 10px;padding:14px;border:1px solid rgba(255,198,92,.5);background:linear-gradient(90deg,rgba(255,198,92,.08),rgba(164,107,255,.06));display:flex;align-items:center;justify-content:space-between;gap:12px}
+.mastery-reward b{font:600 11px var(--f-display);letter-spacing:.1em;color:#ffe4a4}.mastery-reward span{font:700 17px var(--f-mono);color:var(--gold);white-space:nowrap}
+.hidden-unlock{margin-top:12px;padding:12px;text-align:center;border:1px solid rgba(164,107,255,.4);color:#cdb8ff;font:500 11px var(--f-mono);letter-spacing:.06em}.hidden-unlock b{color:#fff;font-size:13px}
+
+.modal.rank-event{background:radial-gradient(circle at 50% 34%,rgba(164,107,255,.22),rgba(4,6,11,.95) 62%)}
+.modal.rank-event .win{border-color:#a46bff;box-shadow:0 0 55px rgba(164,107,255,.25)}
+.rank-event-avatar{height:225px;display:grid;place-items:center;margin:-8px 0 2px}.rank-event-avatar svg{height:220px;width:auto}
+.modal.rank-event h2{font-size:34px;text-align:center;color:#f1e9ff;text-shadow:0 0 18px rgba(164,107,255,.8)}
+.modal.level-event h2{text-align:center}
+
+.modal.phase2-event{background:radial-gradient(circle at 50% 42%,rgba(255,20,58,.2),rgba(4,6,11,.96) 60%)}
+.modal.phase2-event .win{animation:phaseShock .55s cubic-bezier(.3,.9,.4,1)}
+@keyframes phaseShock{0%{transform:scale(1.06);filter:brightness(1.8)}35%{transform:translateX(-6px)}55%{transform:translateX(5px)}75%{transform:translateX(-2px)}100%{transform:none;filter:none}}
+.modal.victory-event{background:radial-gradient(circle at 50% 36%,rgba(255,198,92,.13),rgba(4,6,11,.95) 66%)}
+.modal.victory-event .win{border-color:#d9a841;box-shadow:0 0 48px rgba(255,198,92,.16)}
+.modal.thief-event .win{border-color:#ff9d3d;box-shadow:0 0 45px rgba(255,95,25,.18)}
+.modal.thief-event .tag,.modal.thief-event h2{color:#ffbd77}
+
+#focusBtn{transition:border-color .2s,color .2s,box-shadow .2s}
+#focusBtn.on{color:#dff7ff;border-color:#38bdf8;box-shadow:0 0 12px rgba(56,189,248,.34)}
+@media(max-width:460px){.sysbar .in{gap:6px}.ibtn{padding:6px 7px;font-size:10px}.logo{letter-spacing:.18em;font-size:12px}.logo small{display:none}.mastery-reward{align-items:flex-start;flex-direction:column}.mastery-seal{min-height:210px}.mastery-seal>svg{height:205px}}
+@media(prefers-reduced-motion:reduce){.immersive-avatar *,.monster-art *,.boss,.mastery-ring,.mastery-seal>svg{animation:none!important}.modal.phase2-event .win{animation:none!important}}

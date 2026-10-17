@@ -327,6 +327,7 @@ p.voice{font-style:italic;color:#ffb3bc}
 
   <div class="foot">
     <span>O Sistema reinicia à meia-noite.</span>
+    <span id="acctBox"></span>
     <button id="resetBtn">Recomeçar como novo Jogador</button>
   </div>
 </main>
@@ -686,7 +687,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const $=id=>document.getElementById(id);
 let S=null;
 try{ S=JSON.parse(localStorage.getItem(KEY)); }catch(e){ S=null; }
-const save=()=>{ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} };
+const save=()=>{ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} if(window.onSave) window.onSave(S); };
 
 const mkQuest=([txt,s,xp,sk],t,i)=>({id:"q"+i+"_"+Math.random().toString(36).slice(2,6),t:txt[Math.min(t,txt.length-1)],s,xp:xp+t*5,sk,h:0,m:false,done:false});
 function buildQuests(p){
@@ -1030,8 +1031,10 @@ function startApp(){
 }
 // Inicia depois que as camadas extras (assets/immersive-v1.js) carregarem,
 // para que elas já valham na virada do dia e no onboarding.
+function boot(){ if(S&&S.p) startApp(); else { $("onb").hidden=false; onb(); } }
 window.addEventListener("DOMContentLoaded",()=>{
-  if(S&&S.p) startApp(); else { $("onb").hidden=false; onb(); }
+  // assets/cloud-v1.js pode pedir login antes de iniciar (window.beforeBoot)
+  if(window.beforeBoot) window.beforeBoot(boot); else boot();
   setInterval(()=>{ if(!S) return; tick(); if(S.day!==today()){ rollover(); checkIntro(); render(); } },30000);
 });
 </script>
@@ -1039,5 +1042,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 <script src="assets/art-manifest.js"></script>
 <script src="assets/art-v1.js"></script>
 <script src="assets/dev-v1.js"></script>
+<script src="assets/cloud-config.js"></script>
+<script src="assets/cloud-v1.js"></script>
 </body>
 </html>

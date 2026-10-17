@@ -16,6 +16,7 @@ O progresso fica salvo no `localStorage` do navegador (chave `sistema-disciplina
 | `assets/immersive-v1.js` | Camada imersiva V1: 12 efeitos sonoros, trilha com 4 estados (ambiente, foco, chefe, vitória), Modo Foco, eventos de rank e dia 21, monstros renomeados e Ladrão de Sequência |
 | `assets/immersive-v1.css` | Estilos da camada imersiva |
 | `assets/cloud-config.js`, `assets/cloud-v1.js`, `supabase/schema.sql` | Cadastro e progresso na nuvem com Supabase. Sem `url`/`anonKey` em `cloud-config.js`, o app funciona só no aparelho |
+| `assets/avatar-v2.js` | Avatar montável em estilo anime: corpo proporcional a sexo/altura/peso, 3 rostos, 5 cabelos, roupa por classe e evolução por rank. Também a carta "Forma da classe" (ilustrações) e o painel Editar aparência |
 | `assets/dev-v1.js` | Modo desenvolvedor: abra o app com `#dev` no final do endereço ou toque 5 vezes em SISTEMA. Mostra todas as evoluções e monstros, dispara eventos e ajusta o progresso, com backup do save |
 | `assets/art-manifest.js` | Lista das ilustrações em imagem (avatares e monstros). Veja `ILLUSTRATION_BRIEF.md` |
 | `assets/art-v1.js` | Artes desenhadas em SVG: Titã da Preguiça e avatar do Assassino com evolução do Rank E ao S |

@@ -187,7 +187,10 @@ input[type=range]{width:100%;accent-color:var(--glow)}
 .swatches{display:flex;gap:10px;flex-wrap:wrap}
 .sw{width:32px;height:32px;border-radius:50%;border:2px solid var(--edge);cursor:pointer;padding:0}
 .sw.sel{border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
-.bodygrid{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}
+.bodygrid{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center}
+.optrow{display:flex;flex-wrap:wrap;gap:6px}
+.opt{background:var(--deep);border:1px solid var(--edge);color:var(--muted);font:600 12px var(--f-display);letter-spacing:.06em;padding:8px 10px;cursor:pointer}
+.opt.sel{color:#fff;border-color:var(--glow);box-shadow:0 0 10px rgba(78,168,255,.35) inset}
 .bodygrid .ctrls{display:flex;flex-direction:column;gap:14px;min-width:0}
 .note{font-size:12px;color:var(--muted)}
 .nav{display:flex;justify-content:space-between;gap:10px}
@@ -198,7 +201,7 @@ input[type=range]{width:100%;accent-color:var(--glow)}
 p.sysline{font-family:var(--f-display);color:#9fd2ff;text-shadow:0 0 10px rgba(78,168,255,.6);letter-spacing:.03em}
 p.voice{font-style:italic;color:#ffb3bc}
 .shake{animation:shake .4s}
-@media (max-width:380px){.bodygrid{grid-template-columns:96px 1fr}}
+@media (max-width:380px){.bodygrid{grid-template-columns:118px 1fr}}
 
 /* overlays */
 .toast{position:fixed;left:50%;top:calc(58px + env(safe-area-inset-top,0px));transform:translateX(-50%);
@@ -919,7 +922,7 @@ function render(){
 }
 
 /* ================= ONBOARDING ================= */
-const P0=()=>({name:"",sex:"m",height:170,weight:70,skin:1,hair:0,cls:null,enemy:null,tier:1});
+const P0=()=>({name:"",sex:"m",height:170,weight:70,skin:1,hair:0,face:0,hs:null,cls:null,enemy:null,tier:1});
 let P=P0(), step=0, sp=0;
 const dots=()=>`<div class="dots">${[1,2,3,4,5].map(i=>`<i class="${i<=step?"on":""}"></i>`).join("")}</div>`;
 const nav=(ok,label="Avançar")=>`<div class="nav"><button class="btn" data-act="back">Voltar</button><button class="btn solid" data-act="next" ${ok?"":"disabled"}>${label}</button></div>`;
@@ -945,7 +948,9 @@ function onb(){
         <div><div class="lbl">Peso <b id="wV">${P.weight} kg</b></div><input type="range" id="fW" min="40" max="160" value="${P.weight}"></div>
       </div></div>
       <div><div class="lbl">Tom de pele</div><div class="swatches">${SKINS.map((c,i)=>`<button class="sw ${P.skin===i?"sel":""}" data-skin="${i}" style="background:${c}" aria-label="Tom ${i+1}"></button>`).join("")}</div></div>
-      <div><div class="lbl">Cabelo</div><div class="swatches">${HAIRS.map((c,i)=>`<button class="sw ${P.hair===i?"sel":""}" data-hair="${i}" style="background:${c}" aria-label="Cor ${i+1}"></button>`).join("")}</div></div>
+      <div><div class="lbl">Rosto</div><div class="optrow">${(window.AV_FACES||[]).map((n,i)=>`<button class="opt ${(+P.face||0)===i?"sel":""}" data-face="${i}">${n}</button>`).join("")}</div></div>
+      <div><div class="lbl">Cabelo</div><div class="optrow">${(window.AV_HAIRSTYLES||[]).map((n,i)=>`<button class="opt ${(P.hs==null?(P.sex==="f"?2:0):+P.hs)===i?"sel":""}" data-hs="${i}">${n}</button>`).join("")}</div></div>
+      <div><div class="lbl">Cor do cabelo</div><div class="swatches">${HAIRS.map((c,i)=>`<button class="sw ${P.hair===i?"sel":""}" data-hair="${i}" style="background:${c}" aria-label="Cor ${i+1}"></button>`).join("")}</div></div>
       <p class="note">Usado só para desenhar seu avatar. O Sistema não mede você por números.</p>
       ${nav(true)}`;
   } else if(step===3){
@@ -983,7 +988,7 @@ $("onb").addEventListener("click",e=>{
     const w=$("onb").querySelector(".win"); w.classList.remove("shake"); void w.offsetWidth; w.classList.add("shake"); return; }
   else if(d.act==="more"){ sp++; tone([520],.1,.1,"sine",.04); }
   else if(d.act==="finish"){ S=newGame(P); save(); startApp(); flash(); SFX.lvl(); toast(`Bem-vindo, ${esc(P.name)}. Protocolo de Forja iniciado.`); return; }
-  else if(d.sex){ P.sex=d.sex; } else if(d.skin){ P.skin=+d.skin; } else if(d.hair){ P.hair=+d.hair; }
+  else if(d.sex){ P.sex=d.sex; } else if(d.skin){ P.skin=+d.skin; } else if(d.hair){ P.hair=+d.hair; } else if(d.face){ P.face=+d.face; } else if(d.hs){ P.hs=+d.hs; }
   else if(d.cls){ P.cls=d.cls; } else if(d.enemy){ P.enemy=d.enemy; } else if(d.tier){ P.tier=+d.tier; }
   onb();
 });
@@ -1042,6 +1047,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 <script src="assets/art-manifest.js"></script>
 <script src="assets/art-v1.js"></script>
 <script src="assets/dev-v1.js"></script>
+<script src="assets/avatar-v2.js"></script>
 <script src="assets/cloud-config.js"></script>
 <script src="assets/cloud-v1.js"></script>
 </body>

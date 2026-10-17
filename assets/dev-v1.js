@@ -97,7 +97,8 @@
         <select id="devGCls" class="ibtn">${opts(CLS, cls, v => CLASSES[v].n[sex === 'f' ? 1 : 0])}</select>
         <select id="devGSex" class="ibtn">${opts(['m', 'f'], sex, v => v === 'm' ? 'Masculino' : 'Feminino')}</select>
         <span class="dev-note">Usa altura, peso, pele e cabelo do jogador atual.</span></div>
-      <div class="dev-grid">${RK.map(r => `<div class="dev-card">${avatar(p, r)}<b>Rank ${r}</b>${art[`${cls}/${sex}/${r}`] ? 'ilustração' : 'desenho SVG'}</div>`).join('')}</div>
+      <div class="dev-grid">${RK.map(r => `<div class="dev-card">${avatar(p, r)}<b>Rank ${r}</b>avatar</div>`).join('')}</div>
+      ${RK.some(r => art[`${cls}/${sex}/${r}`]) ? `<p class="dev-note">Cartas de evolução da classe (ilustrações)</p><div class="dev-grid">${RK.map(r => art[`${cls}/${sex}/${r}`] ? `<div class="dev-card"><img src="${art[`${cls}/${sex}/${r}`]}" alt="" style="width:100%;height:auto"><b>Rank ${r}</b></div>` : '').join('')}</div>` : `<p class="dev-note">Sem ilustrações para esta classe e sexo ainda.</p>`}
       <div class="dev-card" style="max-width:220px">${avatar(p, 'E', true)}<b>Sombra do Antigo Eu</b>chefe final</div>`;
   }
   function monsters() {

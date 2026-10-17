@@ -17,7 +17,8 @@ o caminho em `assets/art-manifest.js`. Enquanto não houver ilustração, o app 
   - sexo: `m` ou `f`
   - rank: `e`, `d`, `c`, `b`, `a`, `s`
 - **Fundo transparente**, corpo inteiro, de frente ou 3/4, pés encostando na borda de baixo.
-- Tamanho: 800 × 1400 px (proporção 4:7). WebP com transparência ou PNG.
+- Tamanho: 1100 × 1400 px, personagem com cerca de 1390 px de altura (igual em todos os ranks). WebP com transparência ou PNG.
+- Pode mandar o PNG direto do gerador: o Claude recorta, padroniza a altura e converte.
 - O mesmo personagem nos 6 ranks; cada rank acrescenta equipamento e energia:
   - E: roupa simples, quase sem brilho.
   - D: primeiras peças de metal.

@@ -15,6 +15,7 @@ O progresso fica salvo no `localStorage` do navegador (chave `sistema-disciplina
 | `index.html` | App base: dados, história, lógica, telas e estado salvo |
 | `assets/immersive-v1.js` | Camada imersiva V1: 12 efeitos sonoros, trilha com 4 estados (ambiente, foco, chefe, vitória), Modo Foco, eventos de rank e dia 21, monstros renomeados e Ladrão de Sequência |
 | `assets/immersive-v1.css` | Estilos da camada imersiva |
+| `assets/dev-v1.js` | Modo desenvolvedor: abra o app com `#dev` no final do endereço ou toque 5 vezes em SISTEMA. Mostra todas as evoluções e monstros, dispara eventos e ajusta o progresso, com backup do save |
 | `assets/art-manifest.js` | Lista das ilustrações em imagem (avatares e monstros). Veja `ILLUSTRATION_BRIEF.md` |
 | `assets/art-v1.js` | Artes desenhadas em SVG: Titã da Preguiça e avatar do Assassino com evolução do Rank E ao S |
 | `assets/monsters/` | Referências de arte (`titan-preguica.webp`, conceito usado para desenhar o Titã) |

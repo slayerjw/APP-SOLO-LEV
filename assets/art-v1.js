@@ -309,7 +309,7 @@ ${pulse}${particles}
 <defs><radialGradient id="${id}g" cx="50%" cy="55%" r="50%"><stop offset="0" stop-color="${acc}" stop-opacity="${.12 + ri * .07}"/><stop offset="1" stop-color="${acc}" stop-opacity="0"/></radialGradient></defs>
 <ellipse cx="60" cy="112" rx="58" ry="102" fill="url(#${id}g)"/><ellipse cx="60" cy="203" rx="30" ry="4" fill="#000" opacity=".55"/>
 <g transform="translate(60 205) scale(${sx.toFixed(3)} ${sy.toFixed(3)}) translate(-60 -205)">
-  <image href="${src}" x="0" y="0" width="120" height="205" preserveAspectRatio="xMidYMax meet"/>
+  <image href="${src}" x="-20.5" y="0" width="161" height="205" preserveAspectRatio="xMidYMax meet"/>
 </g>${pulse}${particles}</svg>`;
   }
   function illustratedMonster(src, key) {
